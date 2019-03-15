@@ -47,8 +47,8 @@ class PhaseAdvancer(object):
         
         if self.model == "Gauss":
 #       Gaussian time delay
-            return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d)/(2)))*self.lamda/self.vs
-#                 return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d/(self.lamda * self.lamda))/(2)))*self.lamda/self.vs
+#             return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d)/(2)))*self.lamda/self.vs             
+            return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d/(self.lamda * self.lamda))/(2)))*self.lamda/self.vs
 
         elif self.model =="Quad":
             #Quadratic time delay
