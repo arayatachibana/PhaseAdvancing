@@ -32,6 +32,8 @@ class PhaseAdvancer(object):
         self.L = 10
         # path of saved images
         self.saveLoc = "./NWC/"
+        # integer value constant for Patchwork time delay
+        self.alpha = 2
     
     # function calculating the time delay for each speaker 
     # n is represents the position of the speakers
@@ -54,7 +56,7 @@ class PhaseAdvancer(object):
         
         else:
             # Patchwork time delay
-            return (self.lamda + math.sqrt((4*self.lamda*self.lamda)-(n*self.d*n*self.d)))/(self.vs*2*math.pi)
+            return (self.lamda + math.sqrt((self.alpha*self.lamda*self.lamda)-(n*self.d*n*self.d)))/(self.vs*2*math.pi)
     
     # path difference originating from the separation of the sources
     def delta(self,n,theta):
@@ -73,6 +75,11 @@ class PhaseAdvancer(object):
     def set_L(self, L):
         self.L = L
         return "L is set to {}".format(self.L)
+    
+    # assigning a value to "L"
+    def set_alpha(self, alpha):
+        self.alpha = alpha
+        return "alpha is set to {}".format(self.alpha)
     
     # fuction plotting the distribution of time delay
     def timedif_plot(self,model):
@@ -209,7 +216,7 @@ class PhaseAdvancer(object):
         
         plt.plot(Itotplot[0], Itotplot[1], color="red",linewidth=1.0, linestyle="-",label="no time difference")
         #adding labelling
-        ax.annotate("var0: {:.3f}".format(var),xy=(Itotplot[0][7000],Itotplot[1][7000]),xycoords='data',xytext=(Itotplot[0][7000]+0.1, Itotplot[1][7000]),
+        ax.annotate("var0: {:.3f}".format(var),xy=(Itotplot[0][6000],Itotplot[1][6000]),xycoords='data',xytext=(Itotplot[0][6000]+0.1, Itotplot[1][6000]+self.Itot(True,0)*0.2),
                     textcoords='data', arrowprops=dict(arrowstyle="->",connectionstyle="arc3"),)
 
         # Set x limits
