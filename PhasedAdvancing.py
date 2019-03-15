@@ -47,7 +47,7 @@ class PhaseAdvancer(object):
         
         if self.model == "Gauss":
 #       Gaussian time delay
-#             return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d)/(2)))*self.lamda/self.vs             
+#             return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d)/(2)))*self.lamda/self.vs
             return ((1/(2*math.pi)**0.5)* math.exp(-(n*n*self.d*self.d/(self.lamda * self.lamda))/(2)))*self.lamda/self.vs
 
         elif self.model =="Quad":
@@ -125,6 +125,21 @@ class PhaseAdvancer(object):
     # Total intensity of the effects combined 
     def Itot(self,time_delay,theta):
         return self.I_points(time_delay,theta)*self.I_singleslit(theta)
+    
+    # ratio of the variance between the intensity distribution of the wave with and without time delay
+    def var_reduction(self,model):
+        self.model = model
+        theta = np.linspace(-cmath.pi/2, cmath.pi/2, 10000, endpoint=True)
+
+        ItotList_td = [[angle,self.Itot(True,angle).real] for angle in theta]
+        I_True = self.Itot(True,0)
+        var_td= np.var(ItotList_td,axis=0)[1]/I_True
+
+        ItotList = [[angle,self.Itot(False,angle).real] for angle in theta]
+        I_False = self.Itot(False,0)
+        var= np.var(ItotList,axis=0)[1]/I_False
+
+        return (1-(var_td/var)) *100
     
     # Plotting Intensity against parallel displacement on the screen
     def Intensity_plotter_s(self,model):
@@ -216,7 +231,7 @@ class PhaseAdvancer(object):
         
         plt.plot(Itotplot[0], Itotplot[1], color="red",linewidth=1.0, linestyle="-",label="no time difference")
         #adding labelling
-        ax.annotate("var0: {:.3f}".format(var),xy=(Itotplot[0][6000],Itotplot[1][6000]),xycoords='data',xytext=(Itotplot[0][6000]+0.1, Itotplot[1][6000]+self.Itot(True,0)*0.2),
+        ax.annotate("var0: {:.3f}".format(var),xy=(Itotplot[0][6000],Itotplot[1][6000]),xycoords='data',xytext=(Itotplot[0][6000]+0.1, Itotplot[1][6000]),
                     textcoords='data', arrowprops=dict(arrowstyle="->",connectionstyle="arc3"),)
 
         # Set x limits
