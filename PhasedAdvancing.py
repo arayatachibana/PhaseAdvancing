@@ -133,11 +133,11 @@ class PhaseAdvancer(object):
 
         ItotList_td = [[angle,self.Itot(True,angle).real] for angle in theta]
         I_True = self.Itot(True,0)
-        var_td= np.var(ItotList_td,axis=0)[1]/I_True
+        var_td= np.var(ItotList_td,axis=0)[1]/(I_True*I_True)
 
         ItotList = [[angle,self.Itot(False,angle).real] for angle in theta]
         I_False = self.Itot(False,0)
-        var= np.var(ItotList,axis=0)[1]/I_False
+        var= np.var(ItotList,axis=0)[1]/(I_False*I_False)
 
         return (1-(var_td/var)) *100
     
@@ -162,7 +162,7 @@ class PhaseAdvancer(object):
         I_True = self.Itot(True,0)
         
         # calculating variance
-        var_td= np.var(ItotList_td,axis=0)[1]/I_True
+        var_td= np.var(ItotList_td,axis=0)[1]/(I_True*I_True)
         
         Itotplot_td=np.transpose(ItotList_td)
         plt.plot(xList, Itotplot_td[1], color="green",linewidth=1.0, linestyle="-",label="with time difference")
@@ -177,7 +177,7 @@ class PhaseAdvancer(object):
         I_False = self.Itot(False,0)
         
         #calculating variance
-        var= np.var(ItotList,axis=0)[1]/I_False
+        var= np.var(ItotList,axis=0)[1]/(I_False*I_False)
         Itotplot = np.transpose(ItotList)
         plt.plot(xList, Itotplot[1], color="red",linewidth=1.0, linestyle="-",label="no time difference")
         # adding labeling 
@@ -214,7 +214,7 @@ class PhaseAdvancer(object):
         I_True = self.Itot(True,0)
         
         #calculating variance
-        var_td= np.var(ItotList_td,axis=0)[1]/I_True
+        var_td= np.var(ItotList_td,axis=0)[1]/(I_True*I_True)
         Itotplot_td=np.transpose(ItotList_td)
         
         plt.plot(Itotplot_td[0], Itotplot_td[1], color="green",linewidth=1.0, linestyle="-",label="with time difference")
@@ -226,7 +226,7 @@ class PhaseAdvancer(object):
         ItotList = [[angle,self.Itot(False,angle).real] for angle in theta]
         I_False = self.Itot(False,0)
         #calculating variance
-        var= np.var(ItotList,axis=0)[1]/I_False
+        var= np.var(ItotList,axis=0)[1]/(I_False*I_False)
         Itotplot = np.transpose(ItotList)
         
         plt.plot(Itotplot[0], Itotplot[1], color="red",linewidth=1.0, linestyle="-",label="no time difference")
